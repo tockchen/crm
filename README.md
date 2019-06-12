@@ -8,7 +8,8 @@
 [Mysql教程](https://www.runoob.com/mysql/mysql-tutorial.html)  
 [h2数据库](http://www.h2database.com/html/quickstart.html)  
 ## 工具
-[flyway](https://flywaydb.org/getstarted/)  
+[flyway(数据库版本管理工具)](https://flywaydb.org/getstarted/)  
+[Lombok(自动插入编辑器并构建工具)](https://www.projectlombok.org/)
 
 ## 项目
 [crm](https://github.com/tockchen/crm)

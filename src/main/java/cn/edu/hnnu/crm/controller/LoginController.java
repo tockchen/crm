@@ -26,8 +26,8 @@ public class LoginController {
                         @RequestParam(name = "password") String pwd,
                         HttpServletRequest request){
         User user = new User();
-        user.setUser_name(name);
-        user.setUser_password(pwd);
+        user.setName(name);
+        user.setPassword(pwd);
         Object o = userMapper.select(user);
         if (o!=null){
             // 登录成功,写cookie 和 session
@@ -35,7 +35,7 @@ public class LoginController {
             return "hello";
         }else {
             // 登录失败,重新登录
-            return "redirect:/";
+            return "redirect:/login.html";
         }
 
     }

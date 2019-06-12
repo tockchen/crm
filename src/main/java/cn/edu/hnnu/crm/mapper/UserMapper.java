@@ -12,6 +12,6 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface UserMapper {
-    @Select("select * from sys_user where user_name= #{user_name} and user_password = #{user_password}")
+    @Select("select * from user where name= #{name} and pwd = #{password}")
     User select(User user);
 }

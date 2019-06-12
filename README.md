@@ -6,8 +6,9 @@
 [git教程](https://www.runoob.com/git/git-tutorial.html)  
 [spring boot](https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/htmlsingle/)  
 [Mysql教程](https://www.runoob.com/mysql/mysql-tutorial.html)  
+[h2数据库](http://www.h2database.com/html/quickstart.html)  
 ## 工具
-
+[flyway](https://flywaydb.org/getstarted/)  
 
 ## 项目
 [crm](https://github.com/tockchen/crm)
@@ -20,6 +21,6 @@
     git push 即是将本地的master推送到远程主机
     git commit --amend --no-edit
 ```
-```
-
+```cmd
+    mvn flyway:migrate
 ```

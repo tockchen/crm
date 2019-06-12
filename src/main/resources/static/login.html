@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form action="/login" method="post">
-        <input name="name" type="text"><br>
-        <input name="password" type="password"><br>
-        <input type="submit" value="确定">
-        <input type="reset" value="重置">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="https://kit.fontawesome.com/1a67bae71a.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 
-    </form>
+
+</head>
+
+<body>
+
+    <div class="show-login-btn"><i class="fas fa-sign-in-alt"></i>Show Login Form</div>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="login-box">
+
+        <div class="hide-login-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <form class="login-form" action="/login" method="POST">
+
+            <h1>Welcome</h1>
+            <input class="txtb" type="text" name="username" placeholder="username">
+            <input class="txtb" type="password" name="password" placeholder="password">
+            <input class="login-btn" type="submit" value="Login">
+        </form>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        $(".show-login-btn").on("click", function () {
+            $(".login-box").toggleClass("showed");
+        })
+        $(".hide-login-btn").on("click", function () {
+            $(".login-box").toggleClass("showed");
+        })
+    </script>
+
+
+
 </body>
+
 </html>

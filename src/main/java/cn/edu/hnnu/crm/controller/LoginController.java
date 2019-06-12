@@ -22,7 +22,7 @@ public class LoginController {
     private UserMapper userMapper;
 
     @PostMapping("/login")
-    public String index(@RequestParam(name = "name") String name,
+    public String index(@RequestParam(name = "username") String name,
                         @RequestParam(name = "password") String pwd,
                         HttpServletRequest request){
         User user = new User();

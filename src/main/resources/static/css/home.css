@@ -1,0 +1,25 @@
+.head h1 {
+    text-align: center;
+}
+.head p {
+    font-size: 16px;
+    float: right;
+    margin-right: 30px;
+    margin-top: -30px;
+}
+
+.owen-danger {
+    /*font-size: 30px;*/
+    color: red;
+}
+
+.table-data{
+   width: 80%;
+   margin:0 auto;
+   font-size: 16px;
+   font-weight:bold;
+}
+.caxun{
+    font-size: 16px;
+    float: right;
+}

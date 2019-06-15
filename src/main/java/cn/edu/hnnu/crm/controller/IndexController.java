@@ -1,0 +1,74 @@
+package cn.edu.hnnu.crm.controller;
+
+import cn.edu.hnnu.crm.mapper.CustomerMapper;
+import cn.edu.hnnu.crm.model.Customer;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+/**
+ * @program: crm
+ * @description: 主页核心逻辑
+ * @author: chen can
+ * @create: 2019-06-13 14:25
+ */
+@Controller
+public class IndexController {
+
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    @GetMapping("/index")
+    public String index( @RequestParam(required = false,defaultValue="1",value="pageNum")Integer pageNum,
+                         @RequestParam(defaultValue="9",value="pageSize")Integer pageSize, Model model){
+
+
+        //为了程序的严谨性，判断非空：
+        if(pageNum == null){
+            // 设置默认当前页
+            pageNum = 1;
+        }
+        if(pageNum <= 0){
+            pageNum = 1;
+        }
+        if(pageSize == null){
+            // 设置默认每页显示的数据数
+            pageSize = 9;
+        }
+        System.out.println("当前页是："+pageNum+"显示条数是："+pageSize);
+
+        //1.引入分页插件,pageNum是第几页，pageSize是每页显示多少条,默认查询总数count
+        PageHelper.startPage(pageNum,pageSize);
+        //2.紧跟的查询就是一个分页查询-必须紧跟.后面的其他查询不会被分页，除非再次调用PageHelper.startPage
+        try {
+            List<Customer> customerList = customerMapper.select();
+            System.out.println("分页数据："+customerList);
+            //3.使用PageInfo包装查询后的结果,5是连续显示的条数,结果list类型是Page<E>
+            PageInfo<Customer> pageInfo = new PageInfo<Customer>(customerList,5);
+            //4.使用model/map/modelandview等带回前端
+            model.addAttribute("pageInfo",pageInfo);
+            //获得当前页
+            model.addAttribute("pageNum", pageInfo.getPageNum());
+            //获得一页显示的条数
+            model.addAttribute("pageSize", pageInfo.getPageSize());
+            //是否是第一页
+            model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+            //获得总页数
+            model.addAttribute("totalPages", pageInfo.getPages());
+            //是否是最后一页
+            model.addAttribute("isLastPage", pageInfo.isIsLastPage());
+
+
+        }finally {
+            PageHelper.clearPage(); //清理 ThreadLocal 存储的分页参数,保证线程安全
+        }
+
+        return "text";
+    }
+}

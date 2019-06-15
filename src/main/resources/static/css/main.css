@@ -1,0 +1,35 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #bdc3c7;
+}
+.bj{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(45deg,#9fbaa8,#31354c);
+
+}
+h1,h2{
+    color: #f7f7f7;
+}
+a{
+    color: #f7f7f7;
+}
+span{
+    color: #f7f7f7;
+}
+table{
+     background-image: linear-gradient(45deg,#9fbaa8,#31354c);
+}
+tr{
+    background-image: linear-gradient(45deg,#9fbaa8,#31354c);
+    color: #f7f7f7;
+}
+.fo-footer{
+    width: 80%;
+    margin: 0 auto;
+}

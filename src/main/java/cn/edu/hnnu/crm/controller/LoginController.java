@@ -21,8 +21,10 @@ public class LoginController {
     @Autowired
     private UserMapper userMapper;
 
+
+
     @PostMapping("/login")
-    public String index(@RequestParam(name = "username") String name,
+    public String login(@RequestParam(name = "username") String name,
                         @RequestParam(name = "password") String pwd,
                         HttpServletRequest request){
         User user = new User();
@@ -32,7 +34,7 @@ public class LoginController {
         if (o!=null){
             // 登录成功,写cookie 和 session
             request.getSession().setAttribute("name",name);
-            return "hello";
+            return "redirect:/index";
         }else {
             // 登录失败,重新登录
             return "redirect:/login.html";

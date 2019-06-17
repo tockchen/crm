@@ -37,7 +37,7 @@ public class LoginController {
             return "redirect:/index";
         }else {
             // 登录失败,重新登录
-            return "redirect:/login.html";
+            return "redirect:/";
         }
 
     }

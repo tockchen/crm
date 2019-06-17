@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <link rel="stylesheet" th:href="@{/dist/css/bootstrap.css}"/>
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/dist/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/bootstrap-theme.css}"/>
+
+</head>
+<body onLoad="HideWeekMonth()">
+
+
+<div class="bj">
+    <div class="head">
+        <h1>客户追踪管理系统</h1>
+        <p>
+            <a href="" th:text="${session.name}"></a> <span> |</span>
+            <a class="/logout/" data-toggle="modal" data-target="#myModal">注销</a> <span> |</span>
+            <a href="/change_pwd/">修改密码</a>
+        </p>
+    </div>
+    <hr>
+
+    <div class="table-data" style="height: 480px;color: #f7f7f7">
+        <form class="form-inline" action="/fquery" method="get">
+            <div class="form-group">
+                <label for="customerName">客户名称</label>
+                <input type="text" class="form-control" id="customerName" name="custName">
+            </div>
+            <div class="form-group">
+                <label for="customerFrom">客户来源</label>
+                <select class="form-control" id="customerFrom" placeholder="客户来源" name="custSource">
+                    <option value="">--请选择--</option>
+                    <option th:each="customer : ${customerSet}" th:value="${customer.getCust_source()}"
+                            th:text="${customer.getCust_source()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="custIndustry">所属行业</label>
+                <select class="form-control" id="custIndustry" name="custIndustry">
+                    <option value="">--请选择--</option>
+                    <option th:each="customer : ${customerSet}" th:value="${customer.getCust_industry()}"
+                            th:text="${customer.getCust_industry()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="custLevel">客户级别</label>
+                <select class="form-control" id="custLevel" name="custLevel">
+                    <option value="">--请选择--</option>
+                    <option th:each="customer : ${customerSet}" th:value="${customer.getCust_level()}"
+                            th:text="${customer.getCust_level()}"></option>
+                </select>
+            </div>
+            <button type="submit" id="likeselect" class="btn btn-default">查询</button>
+        </form>
+
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>客户名称</th>
+                <th>客户来源</th>
+                <th>客户所属行业</th>
+                <th>客户级别</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
+
+            <div th:each="customer : ${pageInfo.list}">
+                <tr>
+                    <th><a onclick="teacher_info({teacher.getCust_id()})" th:text="${customer.getCust_id()}"></a></th>
+                    <th th:text="${customer.getCust_name()}"></th>
+                    <th th:text="${customer.getCust_source()}"></th>
+                    <th th:text="${customer.getCust_industry()}"></th>
+                    <th th:text="${customer.getCust_level()}"></th>
+                    <th>
+                        <a data-toggle="modal" data-target=".modify" onclick="update(this)">编辑</a>
+                    </th>
+                    <th>
+                        <a th:href="@{/delete(cust_id=${customer.getCust_id()})}">删除</a>
+                    </th>
+                </tr>
+            </div>
+        </table>
+        <span>
+            <a href="/add_teacher/" class="caxun">添加教师</a>
+        </span>
+    </div>
+
+
+    <!--显示分页信息-->
+    <div class="modal-footer no-margin-top fo-footer">
+        <div class="col-md-7">
+            当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+        </div>
+        <div class="col-md-5 col-md-offset-7" id="fy">
+            <ul class="pagination  pull-right no-margin ">
+                <li th:if="${pageInfo.hasPreviousPage}">
+                    <a th:href="'/index?pageNum=1'">首页</a>
+                </li>
+
+                <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                    <a th:href="'/index?pageNum='+${pageInfo.prePage}">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true" style="color: #337ab7"></span>
+                    </a>
+                </li>
+                <!--遍历条数-->
+                <li th:each="nav:${pageInfo.navigatepageNums}">
+                    <a th:href="'/index?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+                    <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                          th:text="${nav}"></span>
+                </li>
+
+                <li class="next" th:if="${pageInfo.hasNextPage}">
+                    <a th:href="'/index?pageNum='+${pageInfo.nextPage}">
+                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style="color: #337ab7"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="'/index?pageNum='+${pageInfo.pages}">尾页</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="col-md-5 col-md-offset-7" id="fy1">
+            <ul class="pagination  pull-right no-margin ">
+                <li th:if="${pageInfo.hasPreviousPage}">
+                    <a th:href="'/fquery?pageNum=1'">首页</a>
+                </li>
+
+                <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                    <a th:href="'/fquery?pageNum='+${pageInfo.prePage}">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true" style="color: #337ab7"></span>
+                    </a>
+                </li>
+                <!--遍历条数-->
+                <li th:each="nav:${pageInfo.navigatepageNums}">
+                    <a th:href="'/fquery?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+                    <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                          th:text="${nav}"></span>
+                </li>
+
+                <li class="next" th:if="${pageInfo.hasNextPage}">
+                    <a th:href="'/fquery?pageNum='+${pageInfo.nextPage}">
+                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style="color: #337ab7"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="'/fquery?pageNum='+${pageInfo.pages}">尾页</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">确定退出</h4>
+            </div>
+            <div class="modal-body">
+                <p class="owen-danger">如果你选择退出，你的电脑将会中毒！！！</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="logout-sure btn btn-default btn-lg btn-block">确定</button>
+                <button type="button" class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--modal2-->
+<!-- 客户编辑对话框 -->
+<div class="modal fade modify" id="customerEditDialog" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabe2">修改客户信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="edit_customer_form">
+                    <input type="hidden" id="edit_cust_id" name="cust_id"/>
+                    <div class="form-group">
+                        <label for="edit_customerName" class="col-sm-2 control-label">客户名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_customerName" placeholder="客户名称"
+                                   name="cust_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_customerFrom" style="float:left;padding:7px 15px 0 27px;">客户来源</label>
+                        <div class="col-sm-10">
+
+                            <input type="text" class="form-control" id="edit_customerFrom" placeholder="客户来源"
+                                   name="cust_source">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_custIndustry" style="float:left;padding:7px 15px 0 27px;">所属行业</label>
+                        <div class="col-sm-10">
+
+                            <input type="text" class="form-control" id="edit_custIndustry" placeholder="所属行业"
+                                   name="cust_industry">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_custLevel" style="float:left;padding:7px 15px 0 27px;">客户级别</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_custLevel" placeholder="所属行业"
+                                   name="cust_level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_linkMan" class="col-sm-2 control-label">联系人</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_linkMan" placeholder="联系人"
+                                   name="cust_linkman">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_phone" class="col-sm-2 control-label">固定电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_phone" placeholder="固定电话"
+                                   name="cust_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_mobile" class="col-sm-2 control-label">移动电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_mobile" placeholder="移动电话"
+                                   name="cust_mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_zipcode" class="col-sm-2 control-label">邮政编码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_zipcode" placeholder="邮政编码"
+                                   name="cust_zipcode">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_address" class="col-sm-2 control-label">联系地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_address" placeholder="联系地址"
+                                   name="cust_address">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary updateCustomer">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script th:inline="javascript">
+    // 模态框确定按钮点击事件
+    $('.logout-sure').click(function () {
+        // 隐藏模态框
+        $('#myModal').modal('hide');
+        // 往后来通过js逻辑发生 注销 请求
+        location.href = '/logout'
+    })
+
+    if ([[${totalPages}]] <= 1) {
+        $('#fy').hide()
+        $('#fy1').hide()
+    }
+
+    function update(obj) {/*点击修改按钮，给模态框加载信息并且弹出模态框*/
+        var ths = $(obj).parent().parent().find('th');
+        $("#edit_cust_id").val(ths.eq(0).text());
+        $("#edit_customerName").val(ths.eq(1).text());
+        $("#edit_customerFrom").val(ths.eq(2).text());
+        $("#edit_custIndustry").val(ths.eq(3).text());
+        $("#edit_custLevel").val(ths.eq(4).text());
+    }
+
+    $('.updateCustomer').click(function () {
+        // 隐藏模态框
+        $('#myModal').modal('hide');
+
+        // 获取所有参数
+        var cust_id = $("#edit_cust_id").val();
+        var cust_name = $("#edit_customerName").val();
+        var cust_source = $("#edit_customerFrom").val();
+        var cust_industry = $("#edit_custIndustry").val();
+        var cust_level = $("#edit_custLevel").val();
+        var cust_linkman = $("#edit_linkMan").val();
+        var cust_phone = $("#edit_phone").val();
+        var cust_mobile = $("#edit_mobile").val();
+        var cust_zipcode = $("#edit_zipcode").val();
+        var cust_address = $("#edit_address").val();
+
+        var params = {
+            cust_id: cust_id,
+            cust_name: cust_name,
+            cust_source: cust_source,
+            cust_industry: cust_industry,
+            cust_level: cust_level,
+            cust_linkman: cust_linkman,
+            cust_phone: cust_phone,
+            cust_mobile: cust_mobile,
+            cust_zipcode: cust_zipcode,
+            cust_address: cust_address
+        };
+        $.post({
+            url: "./update",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                if (result == null || result.cust_id == null) {
+                    alert("更新失败")
+                    return
+                }
+                window.location.reload();
+                alert("更新成功")
+
+            }
+        })
+
+
+    });
+    $('#likeselect').click(function () {
+        $("#fy1").show();
+        $("#fy").hide();
+    });
+
+    function HideWeekMonth() {
+        $("#fy1").hide();
+    }
+
+
+</script>
+
+</html>

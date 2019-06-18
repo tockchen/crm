@@ -100,6 +100,18 @@ public class IndexController {
         customerMapper.update(customer);
         return customer;
     }
+
+    @PostMapping("/insert")
+    @ResponseBody
+    public Customer insert(@RequestBody Customer customer) {
+        System.out.println(customer);
+        customerMapper.insert(customer);
+        return customer;
+    }
+
+
+
+
     public void ty(List<Customer> customerList,Model model){
         //3.使用PageInfo包装查询后的结果,5是连续显示的条数,结果list类型是Page<E>
         Set<Customer> customerSet = customerMapper.selectset();

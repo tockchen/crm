@@ -1,10 +1,7 @@
 package cn.edu.hnnu.crm.mapper;
 
 import cn.edu.hnnu.crm.model.Customer;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Set;
@@ -23,4 +20,7 @@ public interface CustomerMapper {
 
     @Update("update customer set cust_name=#{cust_name},cust_source=#{cust_source},cust_industry=#{cust_industry},cust_level=#{cust_level},cust_linkman=#{cust_linkman},cust_phone=#{cust_phone},cust_mobile=#{cust_mobile},cust_zipcod=#{cust_zipcod},cust_address=#{cust_address} where cust_id=#{cust_id}")
     void update(Customer customer);
+
+    @Insert("insert into customer(cust_name, cust_user_id,cust_create_id,cust_source,cust_industry,cust_level,cust_linkman,cust_phone,cust_mobile,cust_zipcod,cust_address,)  VALUES  (#{cust_name},#{cust_user_id},#{cust_create_id},#{cust_source},#{cust_industry},#{cust_level},#{cust_linkman},#{cust_phone},#{cust_mobile},#{cust_zipcod},#{cust_address}) ")
+    void insert(Customer customer);
 }

@@ -1,6 +1,7 @@
 package cn.edu.hnnu.crm.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * @create: 2019-06-13 14:16
  */
 @Data
+@ToString
 public class Customer {
     Integer cust_id;
     String cust_name;

@@ -29,7 +29,7 @@ public class LoginController {
                         HttpServletRequest request){
         User user = new User();
         user.setName(name);
-        user.setPassword(pwd);
+        user.setNew_pwd(pwd);
         Object o = userMapper.select(user);
         if (o!=null){
             // 登录成功,写cookie 和 session

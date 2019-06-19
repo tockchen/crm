@@ -6,7 +6,8 @@
 [git教程](https://www.runoob.com/git/git-tutorial.html)  
 [spring boot](https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/htmlsingle/)  
 [Mysql教程](https://www.runoob.com/mysql/mysql-tutorial.html)  
-[h2数据库](http://www.h2database.com/html/quickstart.html)  
+[h2数据库](http://www.h2database.com/html/quickstart.html) 
+[fastjson](https://github.com/alibaba/fastjson) 
 ## 工具
 [flyway(数据库版本管理工具)](https://flywaydb.org/getstarted/)  
 [Lombok(自动插入编辑器并构建工具)](https://www.projectlombok.org/)

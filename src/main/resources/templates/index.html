@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <title>客户追踪管理系统</title>
 
     <link rel="stylesheet" th:href="@{/dist/css/bootstrap.css}"/>
     <script th:src="@{/js/jquery-3.4.1.js}"></script>
@@ -22,7 +21,7 @@
         <p>
             <a href="" id="name" th:text="${session.name}"></a> <span> |</span>
             <a class="/logout/" data-toggle="modal" data-target="#myModal">注销</a> <span> |</span>
-            <a href="/change_pwd/">修改密码</a>
+            <a data-toggle="modal" data-target="#change">修改密码</a>
         </p>
     </div>
     <hr>
@@ -73,13 +72,13 @@
 
             <div th:each="customer : ${pageInfo.list}">
                 <tr>
-                    <th><a onclick="teacher_info({teacher.getCust_id()})" th:text="${customer.getCust_id()}"></a></th>
-                    <th th:text="${customer.getCust_name()}"></th>
+                    <th id="cust_id" th:text="${customer.getCust_id()}"></th>
+                    <th><a data-toggle="modal" data-target="#show" th:text="${customer.getCust_name()}"></a></th>
                     <th th:text="${customer.getCust_source()}"></th>
                     <th th:text="${customer.getCust_industry()}"></th>
                     <th th:text="${customer.getCust_level()}"></th>
                     <th>
-                        <a data-toggle="modal" data-target=".modify" onclick="update(this)">编辑</a>
+                        <a data-toggle="modal" data-target=".modify"  th:onclick="update(this)">编辑</a>
                     </th>
                     <th>
                         <a th:href="@{/delete(cust_id=${customer.getCust_id()})}">删除</a>
@@ -278,10 +277,6 @@
 </div>
 
 
-
-
-
-
 <!--modal3-->
 <!-- 客户添加对话框 -->
 <div class="modal fade add_customer" id="customerEditDialog1" tabindex="-1" role="dialog"
@@ -349,7 +344,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="edit_zipcode" class="col-sm-2 control-label">邮政编码</label>
+                        <label for="edit_zipcode1" class="col-sm-2 control-label">邮政编码</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="edit_zipcode1" placeholder="邮政编码"
                                    name="cust_zipcode">
@@ -373,17 +368,76 @@
 </div>
 
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+
+<!-- 用户信息显示 -->
+<div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabe3">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<!-- 修改密码 -->
+<div class="modal fade bs-example-modal-sm" id="change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabe4">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="edit_customer_form2">
 
+                    <div class="form-group">
+                        <label for="edit_name" class="col-sm-4 control-label">用户名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="edit_name" readonly
+                                   name="name" th:value="${session.name}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_name" class="col-sm-4 control-label">原密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="edit_old_pwd" placeholder="原密码"
+                                   name="old_pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_name" class="col-sm-4 control-label">新密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="edit_new_pwd" placeholder="新密码"
+                                   name="new_pwd">
+                            <span id="tishi"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-
-
-
-
-
-
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary change-pwd">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </body>
@@ -394,21 +448,57 @@
         $('#myModal').modal('hide');
         // 往后来通过js逻辑发生 注销 请求
         location.href = '/logout'
-    })
+    });
 
     if ([[${totalPages}]] <= 1) {
-        $('#fy').hide()
+        $('#fy').hide();
         $('#fy1').hide()
     }
 
     function update(obj) {/*点击修改按钮，给模态框加载信息并且弹出模态框*/
-        var ths = $(obj).parent().parent().find('th');
-        $("#edit_cust_id").val(ths.eq(0).text());
-        $("#edit_customerName").val(ths.eq(1).text());
-        $("#edit_customerFrom").val(ths.eq(2).text());
-        $("#edit_custIndustry").val(ths.eq(3).text());
-        $("#edit_custLevel").val(ths.eq(4).text());
+
+        alert('ajax请求之前');
+        var mal = $(obj).parent().parent("tr").children('th').eq(0).html();
+
+        var str={"cust_id": mal};
+        $.ajax({
+            url : "/selectall",
+            async : true,
+            type : "POST",
+            contentType: 'application/json;charset=utf-8',
+            data :JSON.stringify(str),
+            // 成功后开启模态框
+            success: function(data){
+                //成功逻辑
+                alert(data.cust_zipcode);
+                $("#edit_cust_id").val(data.cust_id);
+                $("#edit_customerName").val(data.cust_name);
+                $("#edit_customerFrom").val(data.cust_source);
+                $("#edit_custIndustry").val(data.cust_industry);
+                $("#edit_custLevel").val(data.cust_level);
+                $("#edit_linkMan").val(data.cust_linkman);
+                $("#edit_phone").val(data.cust_phone);
+                $("#edit_mobile").val(data.cust_mobile);
+                $("#edit_zipcode").val(data.cust_zipcode);
+                $("#edit_address").val(data.cust_address);
+                // 显示模态框
+                $('#queryInfo').modal('show');
+            },
+            error : function() {
+                alert("请求失败");
+            },
+
+        });
+
+
     }
+
+
+
+
+
+
+
 
     $('.updateCustomer').click(function () {
         // 隐藏模态框
@@ -444,7 +534,7 @@
             data: JSON.stringify(params),
             success: function (result) {
                 if (result == null || result.cust_id == null) {
-                    alert("更新失败")
+                    alert("更新失败");
                     return
                 }
                 window.location.reload();
@@ -474,12 +564,12 @@
         var cust_mobile = $("#edit_mobile1").val();
         var cust_zipcode = $("#edit_zipcode1").val();
         var cust_address = $("#edit_address1").val();
-
+        alert(cust_zipcode)
         var params = {
             cust_id: cust_id,
             cust_name: cust_name,
-            cust_user_id : cust_user_id,
-            cust_create_id  : cust_user_id,
+            cust_user_id: cust_user_id,
+            cust_create_id: cust_user_id,
             cust_source: cust_source,
             cust_industry: cust_industry,
             cust_level: cust_level,
@@ -495,21 +585,17 @@
             data: JSON.stringify(params),
             success: function (result) {
                 if (result == null || result.cust_name == null) {
-                    alert("添加失败")
+                    alert("添加失败");
                     return
                 }
                 window.location.reload();
-                alert("添加成功")
+                alert("添加成功");
 
             }
         })
 
 
     });
-
-
-
-
 
 
     $('#likeselect').click(function () {
@@ -521,6 +607,42 @@
         $("#fy1").hide();
     }
 
+    $('.change-pwd').click(function () {
+        // 隐藏模态框
+        $('#myModal').modal('hide');
+        var name = $('#edit_name').val();
+        var old_pwd = $('#edit_old_pwd').val();
+        var new_pwd = $('#edit_new_pwd').val();
+        if (old_pwd !== new_pwd) {
+
+            var params = {
+                name: name,
+                old_pwd:old_pwd,
+                new_pwd: new_pwd
+            };
+            $.post({
+                url: "./update_pwd",
+                contentType: "application/json",
+                data: JSON.stringify(params),
+                success: function (result) {
+                    if (result == 0 ) {
+                        alert("修改密码出错,检测密码是否正确");
+                        return
+                    }
+                    window.location.reload();
+                    alert("修改密码正确,正在返回登录界面...");
+                }
+            });
+
+
+
+
+
+        } else {
+            $("#tishi").html("两次密码相同");
+            $("#tishi").css("color", "red")
+        }
+    })
 
 </script>
 

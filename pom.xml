@@ -78,7 +78,7 @@
 
 
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <!-- fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

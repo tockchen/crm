@@ -1,7 +1,9 @@
 package cn.edu.hnnu.crm.controller;
 
 import cn.edu.hnnu.crm.mapper.CustomerMapper;
+import cn.edu.hnnu.crm.mapper.UserMapper;
 import cn.edu.hnnu.crm.model.Customer;
+import cn.edu.hnnu.crm.model.User;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,11 @@ public class IndexController {
     @Autowired
     private CustomerMapper customerMapper;
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private IndexController indexController;
+
+    private static String name = "";
 
     @RequestMapping("/index")
     public String index(@RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
@@ -60,12 +66,16 @@ public class IndexController {
     @GetMapping("/delete")
     public String delete(@RequestParam(value = "cust_id") Integer cust_id) {
         customerMapper.delete(cust_id);
+        if (name == null) {
+            return "redirect:/";
+        }
         return "redirect:/index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().setAttribute("name", null);
+
         return "redirect:/index";
     }
 
@@ -77,7 +87,7 @@ public class IndexController {
                          @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                          @RequestParam(defaultValue = "9", value = "pageSize") Integer pageSize, Model model,
                          HttpServletRequest request) {
-        String name = (String) request.getSession().getAttribute("name");
+        name = (String) request.getSession().getAttribute("name");
         System.out.println(name);
         String method = request.getMethod();
         System.out.println(method);
@@ -96,21 +106,47 @@ public class IndexController {
     @PostMapping("/update")
     @ResponseBody
     public Customer update(@RequestBody Customer customer) {
-
+        System.out.println(customer.getCust_zipcode());
         customerMapper.update(customer);
+
         return customer;
     }
 
     @PostMapping("/insert")
     @ResponseBody
     public Customer insert(@RequestBody Customer customer) {
-        System.out.println(customer);
         customerMapper.insert(customer);
         return customer;
     }
 
+    @GetMapping("/idselect")
+    @ResponseBody
+    public int id_insert(@RequestBody Integer id,Model model){
+        Customer customer =  customerMapper.idinsert(id);
+        model.addAttribute("customer",customer);
+        return id;
+    }
 
+    @PostMapping("/update_pwd")
+    @ResponseBody
+    public int  updatepwd(@RequestBody User user,HttpServletRequest request){
+        int i =userMapper.update(user);
+        if (i == 1) {
+            request.getSession().setAttribute("name", null);
+        }
+        return i;
+    }
 
+    @PostMapping("/selectall")
+    @ResponseBody
+    public Customer selectall(@RequestBody Customer customer){
+
+        System.out.println(customer.getCust_id());
+        Customer customer1 =  customerMapper.idinsert(customer.getCust_id());
+        System.out.println(customer1.getCust_zipcode());
+        return customer1;
+
+    }
 
     public void ty(List<Customer> customerList,Model model){
         //3.使用PageInfo包装查询后的结果,5是连续显示的条数,结果list类型是Page<E>

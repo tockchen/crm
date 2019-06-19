@@ -3,6 +3,7 @@ package cn.edu.hnnu.crm.mapper;
 import cn.edu.hnnu.crm.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @program: crm
@@ -12,6 +13,8 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface UserMapper {
-    @Select("select * from user where name= #{name} and pwd = #{password}")
+    @Select("select * from user where name= #{name} and pwd = #{new_pwd}")
     User select(User user);
+    @Update("update user set pwd = #{new_pwd} where name = #{name} and pwd = #{old_pwd}")
+    int update(User user);
 }

@@ -24,7 +24,8 @@ public class Customer {
     String cust_linkman;
     String cust_phone;
     String cust_mobile;
-    String cust_zipcod;
+    String cust_zipcode;
     String cust_address;
     Date cust_createtime;
+    Date cust_updatetime;
 }

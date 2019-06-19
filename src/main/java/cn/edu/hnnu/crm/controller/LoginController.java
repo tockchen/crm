@@ -30,10 +30,12 @@ public class LoginController {
         User user = new User();
         user.setName(name);
         user.setNew_pwd(pwd);
-        Object o = userMapper.select(user);
-        if (o!=null){
+        User user1 = userMapper.select(user);
+        if (user1!=null){
             // 登录成功,写cookie 和 session
             request.getSession().setAttribute("name",name);
+            request.getSession().setAttribute("id",user1.getId());
+
             return "redirect:/index";
         }else {
             // 登录失败,重新登录

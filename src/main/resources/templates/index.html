@@ -19,6 +19,7 @@
     <div class="head">
         <h1>客户追踪管理系统</h1>
         <p>
+
             <a href="" id="name" th:text="${session.name}"></a> <span> |</span>
             <a class="/logout/" data-toggle="modal" data-target="#myModal">注销</a> <span> |</span>
             <a data-toggle="modal" data-target="#change">修改密码</a>
@@ -533,7 +534,7 @@
 
     function xs(obj) {/*点击姓名按钮，给模态框加载信息并且弹出模态框*/
 
-        alert('ajax请求之前');
+
         var mal = $(obj).parent().parent("tr").children('th').eq(0).html();
 
         var str = {"cust_id": mal};
@@ -546,7 +547,7 @@
             // 成功后开启模态框
             success: function (data) {
                 //成功逻辑
-                alert(data.cust_zipcode);
+
                 $("#xs_cust_name").val(data.cust_name);
                 $("#xs_cust_source").val(data.cust_source);
                 $("#xs_cust_user_id").val(data.cust_user_id);
@@ -564,7 +565,7 @@
             },
             error: function () {
                 alert("请求失败");
-            },
+            }
 
         });
 
@@ -574,7 +575,7 @@
 
     function update(obj) {/*点击修改按钮，给模态框加载信息并且弹出模态框*/
 
-        alert('ajax请求之前');
+
         var mal = $(obj).parent().parent("tr").children('th').eq(0).html();
 
         var str = {"cust_id": mal};
@@ -587,7 +588,7 @@
             // 成功后开启模态框
             success: function (data) {
                 //成功逻辑
-                alert(data.cust_zipcode);
+
                 $("#edit_cust_id").val(data.cust_id);
                 $("#edit_customerName").val(data.cust_name);
                 $("#edit_customerFrom").val(data.cust_source);
@@ -603,7 +604,7 @@
             },
             error: function () {
                 alert("请求失败");
-            },
+            }
 
         });
 
@@ -665,8 +666,8 @@
         // 获取所有参数
         var cust_id = $("#edit_cust_id1").val();
         var cust_name = $("#edit_customerName1").val();
-        var cust_user_id = $("#name").val();
-        var cust_create_id = $("#name").val();
+        var cust_user_id =[[${session.id}]];
+        var cust_create_id = [[${session.id}]];
         var cust_source = $("#edit_customerFrom1").val();
         var cust_industry = $("#edit_custIndustry1").val();
         var cust_level = $("#edit_custLevel1").val();
@@ -675,7 +676,7 @@
         var cust_mobile = $("#edit_mobile1").val();
         var cust_zipcode = $("#edit_zipcode1").val();
         var cust_address = $("#edit_address1").val();
-        alert(cust_zipcode)
+
         var params = {
             cust_id: cust_id,
             cust_name: cust_name,

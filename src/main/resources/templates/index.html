@@ -73,12 +73,12 @@
             <div th:each="customer : ${pageInfo.list}">
                 <tr>
                     <th id="cust_id" th:text="${customer.getCust_id()}"></th>
-                    <th><a data-toggle="modal" data-target="#show" th:text="${customer.getCust_name()}"></a></th>
+                    <th><a onclick="xs(this)"  data-toggle="modal" data-target="#show" th:text="${customer.getCust_name()}"></a></th>
                     <th th:text="${customer.getCust_source()}"></th>
                     <th th:text="${customer.getCust_industry()}"></th>
                     <th th:text="${customer.getCust_level()}"></th>
                     <th>
-                        <a data-toggle="modal" data-target=".modify"  th:onclick="update(this)">编辑</a>
+                        <a data-toggle="modal" data-target=".modify" onclick="update(this)">编辑</a>
                     </th>
                     <th>
                         <a th:href="@{/delete(cust_id=${customer.getCust_id()})}">删除</a>
@@ -368,30 +368,106 @@
 </div>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Launch demo modal
-</button>
-
 <!-- 用户信息显示 -->
-<div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade " id="show" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabe3">Modal title</h4>
+                <h4 class="modal-title" >用户详细信息</h4>
             </div>
             <div class="modal-body">
-                ...
+                <form class="form-horizontal" >
+                    <input type="hidden"  name="cust_id"/>
+                    <div class="form-group">
+                        <label for="xs_cust_name" class="col-sm-3 control-label">客户名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_cust_name" class="form-control"  name="cust_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_user_id" class="col-sm-3 control-label">负责人</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_cust_user_id" class="form-control"  name="cust_user_id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_create_id" class="col-sm-3 control-label">创建人</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_cust_create_id" class="form-control"  name="cust_create_id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_source"  class="col-sm-3 control-label">客户来源</label>
+                        <div class="col-sm-9">
+
+                            <input type="text" readonly id="xs_cust_source" class="form-control" name="cust_source">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_industry" class="col-sm-3 control-label">所属行业</label>
+                        <div class="col-sm-9">
+
+                            <input type="text" readonly  id="xs_cust_industry" class="form-control" name="cust_industry">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_level" class="col-sm-3 control-label">客户级别</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly id="xs_cust_level" class="form-control"  name="cust_level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_linkman" class="col-sm-3 control-label">联系人</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_cust_linkman" class="form-control"   name="cust_linkman">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_phone"  class="col-sm-3 control-label">固定电话</label>
+                        <div class="col-sm-9">
+                            <input type="text"  readonly id="xs_phone" class="form-control"  name="cust_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_mobile" class="col-sm-3 control-label">移动电话</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_mobile" class="form-control"   name="cust_mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_zipcode" class="col-sm-3 control-label">邮政编码</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly  id="xs_zipcode" class="form-control"   name="cust_zipcode">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_address" class="col-sm-3 control-label">联系地址</label>
+                        <div class="col-sm-9">
+                            <input type="text"  readonly id="xs_address" class="form-control"  name="cust_address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xs_cust_createtime" class="col-sm-3 control-label">客户添加时间</label>
+                        <div class="col-sm-9">
+                            <input type="text"  readonly id="xs_cust_createtime" class="form-control"  name="cust_createtime">
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
 
 
 <!-- 修改密码 -->
@@ -455,20 +531,61 @@
         $('#fy1').hide()
     }
 
+    function xs(obj) {/*点击姓名按钮，给模态框加载信息并且弹出模态框*/
+
+        alert('ajax请求之前');
+        var mal = $(obj).parent().parent("tr").children('th').eq(0).html();
+
+        var str = {"cust_id": mal};
+        $.ajax({
+            url: "/selectall",
+            async: true,
+            type: "POST",
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(str),
+            // 成功后开启模态框
+            success: function (data) {
+                //成功逻辑
+                alert(data.cust_zipcode);
+                $("#xs_cust_name").val(data.cust_name);
+                $("#xs_cust_source").val(data.cust_source);
+                $("#xs_cust_user_id").val(data.cust_user_id);
+                $("#xs_cust_create_id").val(data.cust_create_id);
+                $("#xs_cust_industry").val(data.cust_industry);
+                $("#xs_cust_level").val(data.cust_level);
+                $("#xs_cust_linkman").val(data.cust_linkman);
+                $("#xs_phone").val(data.cust_phone);
+                $("#xs_mobile").val(data.cust_mobile);
+                $("#xs_zipcode").val(data.cust_zipcode);
+                $("#xs_address").val(data.cust_address);
+                $("#xs_cust_createtime").val(data.cust_createtime);
+                // 显示模态框
+                $('#show').modal('show');
+            },
+            error: function () {
+                alert("请求失败");
+            },
+
+        });
+
+
+    }
+
+
     function update(obj) {/*点击修改按钮，给模态框加载信息并且弹出模态框*/
 
         alert('ajax请求之前');
         var mal = $(obj).parent().parent("tr").children('th').eq(0).html();
 
-        var str={"cust_id": mal};
+        var str = {"cust_id": mal};
         $.ajax({
-            url : "/selectall",
-            async : true,
-            type : "POST",
+            url: "/selectall",
+            async: true,
+            type: "POST",
             contentType: 'application/json;charset=utf-8',
-            data :JSON.stringify(str),
+            data: JSON.stringify(str),
             // 成功后开启模态框
-            success: function(data){
+            success: function (data) {
                 //成功逻辑
                 alert(data.cust_zipcode);
                 $("#edit_cust_id").val(data.cust_id);
@@ -484,7 +601,7 @@
                 // 显示模态框
                 $('#queryInfo').modal('show');
             },
-            error : function() {
+            error: function () {
                 alert("请求失败");
             },
 
@@ -492,12 +609,6 @@
 
 
     }
-
-
-
-
-
-
 
 
     $('.updateCustomer').click(function () {
@@ -617,7 +728,7 @@
 
             var params = {
                 name: name,
-                old_pwd:old_pwd,
+                old_pwd: old_pwd,
                 new_pwd: new_pwd
             };
             $.post({
@@ -625,7 +736,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(params),
                 success: function (result) {
-                    if (result == 0 ) {
+                    if (result == 0) {
                         alert("修改密码出错,检测密码是否正确");
                         return
                     }
@@ -633,9 +744,6 @@
                     alert("修改密码正确,正在返回登录界面...");
                 }
             });
-
-
-
 
 
         } else {
